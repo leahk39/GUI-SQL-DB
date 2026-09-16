@@ -1,6 +1,7 @@
 import database
 
-# test2
+# test3
+print("test")
 
 MENU_PROMPT = """--Drink App--
 
