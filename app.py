@@ -1,8 +1,5 @@
 import database
 
-# test3
-print("test")
-
 MENU_PROMPT = """--Vinyl Store--
 
 Please choose one of these options:
