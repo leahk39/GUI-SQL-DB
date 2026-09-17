@@ -5,26 +5,26 @@ This is the main mod with the database code in it
 
 import sqlite3
 
-CREATE_DRINKS_TABLE = "CREATE TABLE IF NOT EXISTS drinks (id INTEGER PRIMARY KEY, name TEXT, flavor TEXT, rating INTEGER)"
+CREATE_VINYLS_TABLE = "CREATE TABLE IF NOT EXISTS vinyls (id INTEGER PRIMARY KEY, name TEXT, album TEXT, rating INTEGER)"
 
-INSERT_DRINK = "INSERT INTO drinks (name, flavor, rating) VALUES (?, ?, ?)"
+INSERT_VINYL = "INSERT INTO vinyls (name, album, rating) VALUES (?, ?, ?)"
 
-GET_ALL_DRINKS = "SELECT * FROM drinks"
+GET_ALL_VINYLS = "SELECT * FROM vinyls"
 
-GET_ALL_DRINKS_BY_NAME = "SELECT * FROM drinks WHERE name = ?;"
+GET_ALL_VINYLS_BY_NAME = "SELECT * FROM vinyls WHERE name = ?;"
 
-GET_BEST_FLAVOR_FOR_DRINK = """
-SELECT * FROM drinks 
+GET_BEST_ALBUM_FOR_VINYL = """
+SELECT * FROM vinyls 
 WHERE name = ?
 ORDER BY rating DESC
 LIMIT 1;"""
 
-DELETE_DRINK_BY_NAME = """
-DELETE FROM drinks
+DELETE_VINYL_BY_NAME = """
+DELETE FROM vinyls
 WHERE name = ?;"""
 
-SHOW_BEAN_RANGE = """
-SELECT * FROM drinks
+SHOW_VINYL_RANGE = """
+SELECT * FROM vinyls
 WHERE rating BETWEEN ? AND ?;"""
 
 def connect():
@@ -32,28 +32,29 @@ def connect():
 
 def create_tables(connection):
     with connection:
-        connection.execute(CREATE_DRINKS_TABLE)
+        return connection.execute(CREATE_VINYLS_TABLE)
 
-def add_drink(connection, name, flavor, rating):
+def add_vinyl(connection, name, album, rating):
     with connection:
-        connection.execute(INSERT_DRINK, (name, flavor, rating))
+        print(f"Adding vinyl: {name} ({album}) - {rating}/100")
+        return connection.execute(INSERT_VINYL, (name, album, rating))
 
-def get_all_drinks(connection):
+def get_all_vinyls(connection):
     with connection:
-        return connection.execute(GET_ALL_DRINKS).fetchall()
+        return connection.execute(GET_ALL_VINYLS).fetchall()
 
-def get_drinks_by_name(connection, name):
+def get_vinyls_by_name(connection, name):
     with connection:
-        return connection.execute(GET_ALL_DRINKS_BY_NAME, (name,)).fetchall()
+        return connection.execute(GET_ALL_VINYLS_BY_NAME, (name,)).fetchall()
 
-def get_best_flavor_for_drink(connection, name):
+def get_best_album_for_vinyl(connection, name):
     with connection:
-        return connection.execute(GET_BEST_FLAVOR_FOR_DRINK, (name,)).fetchall()
+        return connection.execute(GET_BEST_ALBUM_FOR_VINYL, (name,)).fetchall()
 
-def delete_drink_by_name(connection, name):
+def delete_vinyl_by_name(connection, name):
     with connection:
-        return connection.execute(DELETE_DRINK_BY_NAME, (name,)).fetchall()
+        return connection.execute(DELETE_VINYL_BY_NAME, (name,)).fetchall()
 
-def show_drink_range(connection, low, high):
+def show_vinyl_range(connection, low, high):
     with connection:
-        return connection.execute(SHOW_BEAN_RANGE, (low, high,)).fetchall()
+        return connection.execute(SHOW_VINYL_RANGE, (low, high,)).fetchall()
