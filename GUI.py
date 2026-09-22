@@ -49,45 +49,86 @@ text1 = "Record Store"
 textLable1.configure(text = text1)
 
 
-# creating the menu option entry
+# lable for the store and store removal
+textStore = tk.Label(text="\nStore Options:\n\n1. Add New Vinyl\n\n2. See All Vinyls\n\n3. Find Vinyl by Name\n\n4. Find Best Album for Vinyl\n\n5. Delete Vinyl by Name\n\n6. Show Vinyls in Rating Range\n",
+                 font=('Arial', 18), bg=lightPurple)
+textStore.place(x=720/2, y=100)
+
+def removeStore():
+    print('store gone')
+    textNO = " "
+    textStore.configure(text = textNO)
+
+
+# creating the store option entry
 optionEntry = tk.Entry(root)
 optionEntry.place(x=880/2, y=550)
 
-def menuGUI():
+def storeGUI():
     user_input = optionEntry.get()
     if user_input == "1":
-        prompt_add_new_vinyl(connection)
+        removeStore()
+        # prompt_add_new_vinyl(connection)
+        
     elif user_input == "2":
         prompt_see_all_vinyls(connection)
+        removeStore()
     elif user_input == "3":
-        prompt_find_vinyl(connection)
+        # prompt_find_vinyl(connection)
+        # removeStore()
+        return
     elif user_input == "4":
-        prompt_find_best_album(connection)
+        # prompt_find_best_album(connection)
+        # removeStore()
+        return
     elif user_input == "5":
-        prompt_delete_vinyl(connection)
+        # prompt_delete_vinyl(connection)
+        # removeStore()
+        return
     elif user_input == "6":
-        prompt_vinyl_rate_range(connection)
+        # prompt_vinyl_rate_range(connection)
+        # removeStore()
+        return
     else:
         print("Invalid input, please try again.")
 
 
 # creating entry boxes for the 1st 6 options in the menu
-nameVinyl = tk.Entry(root)
-nameVinyl.place(x=880/2, y=100)
-
-albumVinyl = tk.Entry(root)
-albumVinyl.place(x=880/2, y=150)
-
-ratingVinyl = tk.Entry(root)
-ratingVinyl.place(x=880/2, y=200)
-
 def prompt_add_new_vinyl(connection):
+    nameVinyl = tk.Entry(root)
+    nameVinyl.place(x=880/2, y=100)
+
+    albumVinyl = tk.Entry(root)
+    albumVinyl.place(x=880/2, y=150)
+
+    ratingVinyl = tk.Entry(root)
+    ratingVinyl.place(x=880/2, y=200)
+
     name = nameVinyl.get()
     album = albumVinyl.get()
     rating = int(ratingVinyl.get())
 
     database.add_vinyl(connection, name, album, rating)
 
+
+def prompt_see_all_vinyls(connection):
+    vinyls = database.get_all_vinyls(connection)
+    for vinyl in vinyls:
+        print(vinyl)
+
+
+def prompt_find_vinyl(connection):
+    name = nameVinyl.get()
+    vinyls = database.get_vinyls_by_name(connection, name)
+    for vinyl in vinyls:
+        print(vinyl)
+
+
+def prompt_find_best_album(connection):
+    name = nameVinyl.get()
+    best_album = database.get_best_album_for_vinyl(connection, name)
+    for album in best_album:
+        print(album)
 
 
 # seeAllVinyls = tk.Entry(root)
@@ -108,6 +149,6 @@ def prompt_add_new_vinyl(connection):
 
 # creating the 
 
-
+storeGUI()
 # main loop
 root.mainloop()
