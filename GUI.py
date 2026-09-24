@@ -59,7 +59,7 @@ textLable1.configure(text = text1)
 
 
 # lable for the store and store removal
-textStore = tk.Label(text='\nStore Options:\n\n1. Add New Vinyl\n\n2. See All Vinyls\n\n3. Find Vinyl by Name\n\n4. Find Best Album for Vinyl\n\n5. Delete Vinyl by Name\n\n6. Show Vinyls in Rating Range\n',
+textStore = tk.Label(text='\nStore Options:\n\n1. Add New Vinyl\n\n2. See All Vinyls\n\n3. Find Vinyl by Name\n\n4. Find Best Album for Vinyl\n\n5. Delete Vinyl by Name\n\n6. Show Vinyls in Rating Range\n\n7. Show Vinyls in Ascending Order\n',
                  font=('Arial', 18), bg=lightPurple)
 textStore.place(x=720/2, y=100)
 
@@ -70,7 +70,7 @@ def removeStore():
 
 def addStoreBack():
     print('store Back')
-    textBack = '\nStore Options:\n\n1. Add New Vinyl\n\n2. See All Vinyls\n\n3. Find Vinyl by Name\n\n4. Find Best Album for Vinyl\n\n5. Delete Vinyl by Name\n\n6. Show Vinyls in Rating Range\n'
+    textBack = '\nStore Options:\n\n1. Add New Vinyl\n\n2. See All Vinyls\n\n3. Find Vinyl by Name\n\n4. Find Best Album for Vinyl\n\n5. Delete Vinyl by Name\n\n6. Show Vinyls in Rating Range\n\n7. Show Vinyls in Ascending Order\n'
     textStore.configure(text = textBack, font=('Arial', 18), bg=lightPurple)
     
 
@@ -78,7 +78,7 @@ def addStoreBack():
 # creating the store option entry
 def storeGUI():
     optionEntry = tk.Entry(root)
-    optionEntry.place(x=880/2, y=550)
+    optionEntry.place(x=880/2, y=570)
     def lookForOption():
         user_input = optionEntry.get()
         if user_input == "1":
@@ -94,16 +94,20 @@ def storeGUI():
             prompt_find_vinyl(connection)
             return
         elif user_input == "4":
-            # prompt_find_best_album(connection)
-            # removeStore()
+            removeStore()
+            prompt_find_best_album(connection)
             return
         elif user_input == "5":
-            # prompt_delete_vinyl(connection)
-            # removeStore()
+            removeStore()
+            prompt_delete_vinyl(connection)
             return
         elif user_input == "6":
-            # prompt_vinyl_rate_range(connection)
-            # removeStore()
+            removeStore()
+            prompt_vinyl_rate_range(connection)
+            return
+        elif user_input == "7":
+            removeStore()
+            prompt_sort_vinyls_asc(connection)
             return
         else:
             print('Invalid input, please try again.')
@@ -189,6 +193,119 @@ def prompt_find_vinyl(connection):
     entryButton4 = tk.Button(root, text = 'Go Back', command = goBackToHome2)
     entryButton4.place(x=880/2, y=500)
 
+
+
+# creating the entry boxes, lables, and buttons for the 4th option
+def prompt_find_best_album(connection):
+    global vinylNameFindBest, entryButton5
+    vinylNameFindBest = tk.Entry(root)
+    vinylNameFindBest.place(x=880/2, y=100)
+
+    def findBestAlbum():
+        global bestAlbumFound
+        nameToFind = vinylNameFindBest.get()
+        vinyls = database.get_best_album_for_vinyl(connection, nameToFind)
+        bestAlbumFound = tk.Label(root, text = f'The best album for {nameToFind} is {vinyls[0][2]}', font=('Arial', 14), wraplength = 600, bg=lightPurple)
+        bestAlbumFound.place(x=500/2, y=100)
+        vinylNameFindBest.place_forget()
+
+    
+    entryButton5 = tk.Button(root, text = 'Enter Vinyl Name', command = findBestAlbum)
+    entryButton5.place(x=880/2, y=400)
+
+    def goBackToHome3():
+        bestAlbumFound.place_forget()
+        vinylNameFindBest.place_forget()
+        entryButton5.place_forget()
+        entryButton6.place_forget()
+        addStoreBack()
+
+    entryButton6 = tk.Button(root, text = 'Go Back', command = goBackToHome3)
+    entryButton6.place(x=880/2, y=500)
+
+
+
+# creating the entry boxes, lables, and buttons for the 5th option
+def prompt_delete_vinyl(connection):
+    global vinylNameDelete, entryButton7, entryButton8
+    vinylNameDelete = tk.Entry(root)
+    vinylNameDelete.place(x=880/2, y=100)
+
+    def findVinylToDelete():
+        global deleteVinyl
+        vinylToDelete = vinylNameDelete.get()
+        database.delete_vinyl_by_name(connection, vinylToDelete)
+        deleteVinyl = tk.Label(root, text = f'{vinylToDelete} has been deleted', font=('Arial', 14), wraplength = 600, bg=lightPurple)
+        deleteVinyl.place(x=600/2, y=100)
+        entryButton7.place_forget()
+        vinylNameDelete.place_forget()
+        print('deleted vinyl')
+
+    entryButton7 = tk.Button(root, text = 'Enter Vinyl Name', command = findVinylToDelete)
+    entryButton7.place(x=880/2, y=400)
+
+    def goBackToHome4():
+        deleteVinyl.place_forget()
+        vinylNameDelete.place_forget()
+        entryButton7.place_forget()
+        entryButton8.place_forget()
+        addStoreBack()
+
+    entryButton8 = tk.Button(root, text = 'Go Back', command = goBackToHome4)
+    entryButton8.place(x=880/2, y=500)
+
+
+
+# creating the entry boxes, lables, and buttons for the 6th option
+def prompt_vinyl_rate_range(connection):
+    global vinylRatingMin, vinylRatingMax, entryButton9,entryButton10
+    vinylRatingMin = tk.Entry(root)
+    vinylRatingMin.place(x=880/2, y=100)
+
+    vinylRatingMax = tk.Entry(root)
+    vinylRatingMax.place(x=880/2, y=150)
+
+    def showVinylsInRange():
+        global vinylsInRange
+        low = vinylRatingMin.get()
+        high = vinylRatingMax.get()
+        vinyls = database.show_vinyl_range(connection, low, high)
+        vinylsInRange = tk.Label(root, text = f'{vinyls}', font=('Arial', 14), wraplength = 600, bg=lightPurple)
+        vinylsInRange.place(x=500/2, y=100)
+        vinylRatingMin.place_forget()
+        vinylRatingMax.place_forget()
+        entryButton9.place_forget()
+        print('vinyls shown in range')
+
+    entryButton9 = tk.Button(root, text = 'Enter Vinyl Rating Range', command =showVinylsInRange)
+    entryButton9.place(x=880/2, y=400) 
+
+    def goBackToHome5():
+        vinylsInRange.place_forget()
+        vinylRatingMin.place_forget()
+        vinylRatingMax.place_forget()
+        entryButton10.place_forget()
+        addStoreBack()
+
+    entryButton10 = tk.Button(root, text = 'Go Back', command = goBackToHome5)
+    entryButton10.place(x=880/2, y=500)
+
+
+
+# creating the entry boxes, lables, and buttons for the 7th option
+def prompt_sort_vinyls_asc(connection):
+    global entryButton11, vinylsAsc
+    vinyls = database.show_vinyl_asc(connection)
+    vinylsAsc = tk.Label(root, text = f'{vinyls}', font=('Arial', 14), wraplength = 600, bg=lightPurple)
+    vinylsAsc.place(x=500/2, y=100)
+    
+    def goBackToHome6():
+        vinylsAsc.place_forget()
+        entryButton11.place_forget()
+        addStoreBack()
+    
+    entryButton11 = tk.Button(root, text = 'Go Back', command = goBackToHome6)
+    entryButton11.place(x=880/2, y=500)
 
 
 

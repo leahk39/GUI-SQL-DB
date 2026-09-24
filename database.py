@@ -27,6 +27,10 @@ SHOW_VINYL_RANGE = """
 SELECT * FROM vinyls
 WHERE rating BETWEEN ? AND ?;"""
 
+SHOW_VINYL_ASC = """
+SELECT * FROM vinyls
+ORDER BY name ASC;"""
+
 def connect():
     return sqlite3.connect("data.db")
 
@@ -58,3 +62,7 @@ def delete_vinyl_by_name(connection, name):
 def show_vinyl_range(connection, low, high):
     with connection:
         return connection.execute(SHOW_VINYL_RANGE, (low, high,)).fetchall()
+
+def show_vinyl_asc(connection):
+    with connection:
+        return connection.execute(SHOW_VINYL_ASC).fetchall()
