@@ -74,9 +74,10 @@ def addStoreBack():
     textStore.configure(text = textBack, font=('Arial', 18), bg=lightPurple)
     
 
-
+optionEntry = None
 # creating the store option entry
 def storeGUI():
+    global optionEntry
     optionEntry = tk.Entry(root)
     optionEntry.place(x=880/2, y=570)
     def lookForOption():
@@ -112,6 +113,9 @@ def storeGUI():
                 return
             else:
                 print('Invalid input, please try again.')
+
+
+
 
 
     entryButton = tk.Button(root, text = 'Enter Option', command = lookForOption)
