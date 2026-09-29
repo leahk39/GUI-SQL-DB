@@ -72,7 +72,47 @@ def addStoreBack():
     print('store Back')
     textBack = '\nStore Options:\n\n1. Add New Vinyl\n\n2. See All Vinyls\n\n3. Find Vinyl by Name\n\n4. Find Best Album for Vinyl\n\n5. Delete Vinyl by Name\n\n6. Show Vinyls in Rating Range\n\n7. Show Vinyls in Ascending Order\n'
     textStore.configure(text = textBack, font=('Arial', 18), bg=lightPurple)
-    
+
+
+
+# creatating the settings for the GUI
+def settingsGUI():
+        print('Settings GUI opened')
+        global settingsButton
+        settingsMenu = tk.Label(root, text = 'Menu:\n1. Change Background\n2. Change Menu Colour\n3. Change Font', font=('Arial', 12), wraplength = 200, bg=lightPurple)
+        settingsMenu.place(x=100, y=100)
+        settings()
+
+def settings():
+    global enterOptionButtonS
+    optionEntryS = tk.Entry(root)
+    optionEntryS.place(x=100, y=150)
+    def lookForOptionS():
+        while True:
+            user_input = optionEntryS.get()
+            if user_input == "1":
+                changeBackground()
+                print('Change Background')
+                return
+            elif user_input == "2":
+                print('Change Menu Colour')
+                return
+            elif user_input == "3":
+                print('Change Font')
+                return
+            else:
+                print('Invalid input, please try again.')
+        
+    enterOptionButtonS = tk.Button(root, text = 'Enter Option', command = lookForOptionS)
+    enterOptionButtonS.place(x=100, y=160)
+
+settingsButton = tk.Button(root, text = 'Settings', command = settingsGUI)
+settingsButton.place(x=50, y=50)
+
+def changeBackground():
+    print('changed')
+    return
+
 
 
 # creating the store option entry
@@ -310,7 +350,7 @@ def prompt_sort_vinyls_asc(connection):
 
 
 
-# calling the storeGUI function
+# calling the storeGUI and settings functions
 storeGUI()
 
 
