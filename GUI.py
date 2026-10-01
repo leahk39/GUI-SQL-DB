@@ -34,10 +34,13 @@ darkPurple = '#2f2d45'
 
 
 
-# creating the background image
+# creating the background images
 photo = Image.open('recordStore.jpg')
 photo = photo.resize((1024, 664), Image.LANCZOS)
 photo = ImageTk.PhotoImage(photo)
+
+# photo2 = Image.open('recordStore2.jpg')
+# photo2 = photo2.resize((1024, 664), Image.LANCZOS)
 
 
 
@@ -73,20 +76,27 @@ def addStoreBack():
     textBack = '\nStore Options:\n\n1. Add New Vinyl\n\n2. See All Vinyls\n\n3. Find Vinyl by Name\n\n4. Find Best Album for Vinyl\n\n5. Delete Vinyl by Name\n\n6. Show Vinyls in Rating Range\n\n7. Show Vinyls in Ascending Order\n'
     textStore.configure(text = textBack, font=('Arial', 18), bg=lightPurple)
 
+settingsMenu = tk.Label(root, text = 'Menu:\n1. Change Background\n2. Change Menu Colour\n3. Change Font', font=('Arial', 12), wraplength = 200, bg=lightPurple)
+settingsMenu.place(x=100, y=100)
 
+def settingsMenuDisappear():
+    settingsMenu.place_forget()
+
+def settingsMenuAppear():
+    settingsMenu.place(x=100, y=100)
 
 # creatating the settings for the GUI
 def settingsGUI():
-        print('Settings GUI opened')
-        global settingsButton
-        settingsMenu = tk.Label(root, text = 'Menu:\n1. Change Background\n2. Change Menu Colour\n3. Change Font', font=('Arial', 12), wraplength = 200, bg=lightPurple)
-        settingsMenu.place(x=100, y=100)
-        settings()
+    print('Settings GUI opened')
+    settingsMenuAppear()
+    global settingsButton 
+    
+    settings()
 
 def settings():
-    global enterOptionButtonS
+    global enterOptionButtonS, optionEntryS
     optionEntryS = tk.Entry(root)
-    optionEntryS.place(x=100, y=150)
+    optionEntryS.place(x=100, y=250)
     def lookForOptionS():
         while True:
             user_input = optionEntryS.get()
@@ -104,14 +114,36 @@ def settings():
                 print('Invalid input, please try again.')
         
     enterOptionButtonS = tk.Button(root, text = 'Enter Option', command = lookForOptionS)
-    enterOptionButtonS.place(x=100, y=160)
+    enterOptionButtonS.place(x=100, y=280)
 
 settingsButton = tk.Button(root, text = 'Settings', command = settingsGUI)
 settingsButton.place(x=50, y=50)
 
 def changeBackground():
+    settingsMenuDisappear()
+    def background1():
+        print('background1')
+
+    def background2():
+        print('background2')
+
+    def goBackHomeS1():
+        background1Button.place_forget()
+        background2Button.place_forget()
+        backButton1.place_forget()
+        settingsMenuAppear()
+        print('back home')
+
+    background1Button = tk.Button(root, text = 'background 1', command = background1)
+    background1Button.place(x=100, y=200)
+
+    background2Button = tk.Button(root, text = 'background 2', command = background2)
+    background2Button.place(x=100, y=220)
+
+    backButton1 = tk.Button(root, text = 'Go Back', command = goBackHomeS1)
+    backButton1.place(x=100, y=250)
+
     print('changed')
-    return
 
 
 
@@ -351,6 +383,7 @@ def prompt_sort_vinyls_asc(connection):
 
 
 # calling the storeGUI and settings functions
+settingsMenuDisappear()
 storeGUI()
 
 
