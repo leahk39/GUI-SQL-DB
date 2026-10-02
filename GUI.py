@@ -169,7 +169,6 @@ def changeBackground():
     def goBackHomeS1():
         background1Button.place_forget()
         background2Button.place_forget()
-        # background3Button.place_forget()
         backButton1.place_forget()
         settingsMenuAppear()
         print('back home')
@@ -223,7 +222,7 @@ def changeMenuColour():
     backButton2.place(x=100, y=180)
 
 
-    
+
 # creating the store option entry
 def storeGUI():
     optionEntry = tk.Entry(root)
@@ -273,12 +272,18 @@ def prompt_add_new_vinyl(connection):
     global nameVinyl, albumVinyl, ratingVinyl, entryButton1
     nameVinyl = tk.Entry(root)
     nameVinyl.place(x=880/2, y=100)
+    nameLabel = tk.Label(root, text = 'Enter Vinyl Name:', font=('Arial', 14), bg=lightPurple)
+    nameLabel.place(x=880/2, y=70)
 
     albumVinyl = tk.Entry(root)
     albumVinyl.place(x=880/2, y=150)
+    albumLabel = tk.Label(root, text = 'Enter Album Name:', font=('Arial', 14), bg=lightPurple)
+    albumLabel.place(x=880/2, y=120)
 
     ratingVinyl = tk.Entry(root)
     ratingVinyl.place(x=880/2, y=200)
+    ratingLabel = tk.Label(root, text = 'Enter Rating:', font=('Arial', 14), bg=lightPurple)
+    ratingLabel.place(x=880/2, y=170)
 
     def addToDatabase1():
         name = nameVinyl.get()
@@ -289,6 +294,9 @@ def prompt_add_new_vinyl(connection):
         print('added successfully')
         addStoreBack()
         nameVinyl.place_forget()
+        nameLabel.place_forget()
+        albumLabel.place_forget()
+        ratingLabel.place_forget()
         albumVinyl.place_forget()
         ratingVinyl.place_forget()
         entryButton1.place_forget()
