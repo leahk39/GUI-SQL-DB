@@ -39,8 +39,7 @@ photo = Image.open('recordStore.jpg')
 photo = photo.resize((1024, 664), Image.LANCZOS)
 photo = ImageTk.PhotoImage(photo)
 
-# photo2 = Image.open('recordStore2.jpg')
-# photo2 = photo2.resize((1024, 664), Image.LANCZOS)
+
 
 
 
@@ -76,6 +75,9 @@ def addStoreBack():
     textBack = '\nStore Options:\n\n1. Add New Vinyl\n\n2. See All Vinyls\n\n3. Find Vinyl by Name\n\n4. Find Best Album for Vinyl\n\n5. Delete Vinyl by Name\n\n6. Show Vinyls in Rating Range\n\n7. Show Vinyls in Ascending Order\n'
     textStore.configure(text = textBack, font=('Arial', 18), bg=lightPurple)
 
+
+
+# creating the settings menu
 settingsMenu = tk.Label(root, text = 'Menu:\n1. Change Background\n2. Change Menu Colour\n3. Change Font', font=('Arial', 12), wraplength = 200, bg=lightPurple)
 settingsMenu.place(x=100, y=100)
 
@@ -85,14 +87,32 @@ def settingsMenuDisappear():
 def settingsMenuAppear():
     settingsMenu.place(x=100, y=100)
 
+
+
 # creatating the settings for the GUI
 def settingsGUI():
+    global closeSettingsButton
     print('Settings GUI opened')
     settingsMenuAppear()
     global settingsButton 
-    
+    closeSettingsButton = tk.Button(root, text = 'Close Settings', command = closeSettings)
+    closeSettingsButton.place(x=100, y=310)
     settings()
 
+
+
+# closing the settings menu
+def closeSettings():
+    global closeSettingsButton, enterOptionButtonS, optionEntryS
+    settingsMenuDisappear()
+    closeSettingsButton.place_forget()
+    enterOptionButtonS.place_forget()
+    optionEntryS.place_forget()
+    print('Settings GUI closed')
+
+
+
+# creating the loop for the settings menu
 def settings():
     global enterOptionButtonS, optionEntryS
     optionEntryS = tk.Entry(root)
@@ -119,29 +139,63 @@ def settings():
 settingsButton = tk.Button(root, text = 'Settings', command = settingsGUI)
 settingsButton.place(x=50, y=50)
 
+
+
+# creating the change background function
 def changeBackground():
     settingsMenuDisappear()
     def background1():
+        global photo1
+
+        photo1 = Image.open('recordStore.jpg')
+        photo1 = photo1.resize((1024, 664), Image.LANCZOS)  
+        photo1 = ImageTk.PhotoImage(photo1)
+
+        label.configure(image=photo1)
+        label.image = photo1
+        
         print('background1')
 
     def background2():
+        global photo2
+
+        photo2 = Image.open('images.jpg')
+        photo2 = photo2.resize((1024, 664), Image.LANCZOS)
+        photo2 = ImageTk.PhotoImage(photo2)
+
+        label.configure(image=photo2)
+        label.image = photo2
+
         print('background2')
+
+
+    # def background3():
+    #     photo3 = Image.open('smtcuk91vqkg.png')
+    #     photo3 = photo3.resize((1024, 664), Image.LANCZOS)
+    #     photo3 = ImageTk.PhotoImage(photo3)
+    #     label = tk.Label(root, image=photo)
+    #     label.pack()
+    #     print('background3')
 
     def goBackHomeS1():
         background1Button.place_forget()
         background2Button.place_forget()
+        # background3Button.place_forget()
         backButton1.place_forget()
         settingsMenuAppear()
         print('back home')
 
     background1Button = tk.Button(root, text = 'background 1', command = background1)
-    background1Button.place(x=100, y=200)
+    background1Button.place(x=100, y=110)
 
     background2Button = tk.Button(root, text = 'background 2', command = background2)
-    background2Button.place(x=100, y=220)
+    background2Button.place(x=100, y=130)
+
+    # background3Button = tk.Button(root, text = 'background 3', command = background3)
+    # background3Button.place(x=100, y=150)
 
     backButton1 = tk.Button(root, text = 'Go Back', command = goBackHomeS1)
-    backButton1.place(x=100, y=250)
+    backButton1.place(x=100, y=180)
 
     print('changed')
 
