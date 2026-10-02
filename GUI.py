@@ -78,7 +78,7 @@ def addStoreBack():
 
 
 # creating the settings menu
-settingsMenu = tk.Label(root, text = 'Menu:\n1. Change Background\n2. Change Menu Colour\n3. Change Font', font=('Arial', 12), wraplength = 200, bg=lightPurple)
+settingsMenu = tk.Label(root, text = 'Menu:\n1. Change Background\n2. Change Menu Colour', font=('Arial', 12), wraplength = 200, bg=lightPurple)
 settingsMenu.place(x=100, y=100)
 
 def settingsMenuDisappear():
@@ -125,10 +125,8 @@ def settings():
                 print('Change Background')
                 return
             elif user_input == "2":
+                changeMenuColour()
                 print('Change Menu Colour')
-                return
-            elif user_input == "3":
-                print('Change Font')
                 return
             else:
                 print('Invalid input, please try again.')
@@ -168,15 +166,6 @@ def changeBackground():
 
         print('background2')
 
-
-    # def background3():
-    #     photo3 = Image.open('smtcuk91vqkg.png')
-    #     photo3 = photo3.resize((1024, 664), Image.LANCZOS)
-    #     photo3 = ImageTk.PhotoImage(photo3)
-    #     label = tk.Label(root, image=photo)
-    #     label.pack()
-    #     print('background3')
-
     def goBackHomeS1():
         background1Button.place_forget()
         background2Button.place_forget()
@@ -191,9 +180,6 @@ def changeBackground():
     background2Button = tk.Button(root, text = 'background 2', command = background2)
     background2Button.place(x=100, y=130)
 
-    # background3Button = tk.Button(root, text = 'background 3', command = background3)
-    # background3Button.place(x=100, y=150)
-
     backButton1 = tk.Button(root, text = 'Go Back', command = goBackHomeS1)
     backButton1.place(x=100, y=180)
 
@@ -201,6 +187,43 @@ def changeBackground():
 
 
 
+# creating the change menu colour function
+def changeMenuColour():
+    settingsMenuDisappear()
+    def menuColour1():
+        global lightPurple, darkPurple
+        lightPurple = '#CFACEB'
+        darkPurple = '#2f2d45'
+        textStore.configure(bg=lightPurple)
+        settingsMenu.configure(bg=lightPurple)
+        print('menu colour 1')
+
+    def menuColour2():
+        global lightPurple, darkPurple
+        lightPurple = '#F5F5DC'
+        darkPurple = '#8B4513'
+        textStore.configure(bg=lightPurple)
+        settingsMenu.configure(bg=lightPurple)
+        print('menu colour 2')
+
+    def goBackHomeS2():
+        menuColour1Button.place_forget()
+        menuColour2Button.place_forget()
+        backButton2.place_forget()
+        settingsMenuAppear()
+        print('back home')
+
+    menuColour1Button = tk.Button(root, text = 'menu colour 1', command = menuColour1)
+    menuColour1Button.place(x=100, y=110)
+
+    menuColour2Button = tk.Button(root, text = 'menu colour 2', command = menuColour2)
+    menuColour2Button.place(x=100, y=130)
+
+    backButton2 = tk.Button(root, text = 'Go Back', command = goBackHomeS2)
+    backButton2.place(x=100, y=180)
+
+
+    
 # creating the store option entry
 def storeGUI():
     optionEntry = tk.Entry(root)
