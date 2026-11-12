@@ -31,6 +31,10 @@ SHOW_VINYL_ASC = """
 SELECT * FROM vinyls
 ORDER BY name ASC;"""
 
+SHOW_VINYL_DESC = """
+SELECT * FROM vinyls
+ORDER BY name DESC;"""
+
 def connect():
     return sqlite3.connect("data.db")
 
@@ -66,3 +70,7 @@ def show_vinyl_range(connection, low, high):
 def show_vinyl_asc(connection):
     with connection:
         return connection.execute(SHOW_VINYL_ASC).fetchall()
+
+def show_vinyl_desc(connection):
+    with connection:
+        return connection.execute(SHOW_VINYL_DESC).fetchall()

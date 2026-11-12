@@ -61,8 +61,8 @@ textLable1.configure(text = text1)
 
 
 # lable for the store and store removal
-textStore = tk.Label(text='\nStore Options:\n\n1. Add New Vinyl\n\n2. See All Vinyls\n\n3. Find Vinyl by Name\n\n4. Find Best Album for Vinyl\n\n5. Delete Vinyl by Name\n\n6. Show Vinyls in Rating Range\n\n7. Show Vinyls in Ascending Order\n',
-                 font=('Arial', 18), bg=lightPurple)
+textStore = tk.Label(text='\nStore Options:\n\n1. Add New Vinyl\n\n2. See All Vinyls\n\n3. Find Vinyl by Name\n\n4. Find Best Album for Vinyl\n\n5. Delete Vinyl by Name\n\n6. Show Vinyls in Rating Range\n\n7. Show Vinyls in Ascending Order\n\n8. Show Vinyls in Descending Order\n',
+                 font=('Arial', 15), bg=lightPurple)
 textStore.place(x=720/2, y=100)
 
 def removeStore():
@@ -72,8 +72,8 @@ def removeStore():
 
 def addStoreBack():
     print('store Back')
-    textBack = '\nStore Options:\n\n1. Add New Vinyl\n\n2. See All Vinyls\n\n3. Find Vinyl by Name\n\n4. Find Best Album for Vinyl\n\n5. Delete Vinyl by Name\n\n6. Show Vinyls in Rating Range\n\n7. Show Vinyls in Ascending Order\n'
-    textStore.configure(text = textBack, font=('Arial', 18), bg=lightPurple)
+    textBack = '\nStore Options:\n\n1. Add New Vinyl\n\n2. See All Vinyls\n\n3. Find Vinyl by Name\n\n4. Find Best Album for Vinyl\n\n5. Delete Vinyl by Name\n\n6. Show Vinyls in Rating Range\n\n7. Show Vinyls in Ascending Order\n\n8. Show Vinyls in Descending Order\n'
+    textStore.configure(text = textBack, font=('Arial', 15), bg=lightPurple)
 
 
 
@@ -227,39 +227,52 @@ def changeMenuColour():
 def storeGUI():
     optionEntry = tk.Entry(root)
     optionEntry.place(x=880/2, y=570)
-    def lookForOption():
-        while True:
-            user_input = optionEntry.get()
-            if user_input == "1":
-                removeStore()
-                prompt_add_new_vinyl(connection)
-                return
-            elif user_input == "2":
-                removeStore()
-                prompt_see_all_vinyls(connection)
-                return
-            elif user_input == "3":
-                removeStore()
-                prompt_find_vinyl(connection)
-                return
-            elif user_input == "4":
-                removeStore()
-                prompt_find_best_album(connection)
-                return
-            elif user_input == "5":
-                removeStore()
-                prompt_delete_vinyl(connection)
-                return
-            elif user_input == "6":
-                removeStore()
-                prompt_vinyl_rate_range(connection)
-                return
-            elif user_input == "7":
-                removeStore()
-                prompt_sort_vinyls_asc(connection)
-                return
-            else:
-                print('Invalid input, please try again.')
+    try:
+        def lookForOption():
+            while True:
+                user_input = optionEntry.get()
+                if user_input == "1":
+                    removeStore()
+                    prompt_add_new_vinyl(connection)
+                    return
+                elif user_input == "2":
+                    removeStore()
+                    prompt_see_all_vinyls(connection)
+                    return
+                elif user_input == "3":
+                    removeStore()
+                    prompt_find_vinyl(connection)
+                    return
+                elif user_input == "4":
+                    removeStore()
+                    prompt_find_best_album(connection)
+                    return
+                elif user_input == "5":
+                    removeStore()
+                    prompt_delete_vinyl(connection)
+                    return
+                elif user_input == "6":
+                    removeStore()
+                    prompt_vinyl_rate_range(connection)
+                    return
+                elif user_input == "7":
+                    removeStore()
+                    prompt_sort_vinyls_asc(connection)
+                    return
+                elif user_input == "8":
+                    removeStore()
+                    prompt_sort_vinyls_desc(connection)
+                    return
+                else:
+                    print('Invalid input, please try again.')
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+    else:
+        print('Store GUI opened')
+
+    finally:
+        print('Store GUI closed')
 
 
     entryButton = tk.Button(root, text = 'Enter Option', command = lookForOption)
@@ -464,6 +477,23 @@ def prompt_sort_vinyls_asc(connection):
     
     entryButton11 = tk.Button(root, text = 'Go Back', command = goBackToHome6)
     entryButton11.place(x=880/2, y=500)
+
+
+
+# creating the entry boxes, lables, and buttons for the 8th option
+def prompt_sort_vinyls_desc(connection):
+    global entryButton12, vinylsDesc
+    vinyls = database.show_vinyl_desc(connection)
+    vinylsDesc = tk.Label(root, text = f'{vinyls}', font=('Arial', 14), wraplength = 600, bg=lightPurple)
+    vinylsDesc.place(x=500/2, y=100)
+    
+    def goBackToHome7():
+        vinylsDesc.place_forget()
+        entryButton12.place_forget()
+        addStoreBack()
+    
+    entryButton12 = tk.Button(root, text = 'Go Back', command = goBackToHome7)
+    entryButton12.place(x=880/2, y=500)
 
 
 
